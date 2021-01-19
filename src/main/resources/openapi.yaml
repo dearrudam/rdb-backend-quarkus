@@ -48,16 +48,13 @@ paths:
       responses:
         200:
           description: novo evento registrado
-          content:
+          content: 
             application/json:
               schema:
                 $ref: '#/components/schemas/NovoEventoResponse'
         400:
           description: Requisição inválida
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MensagensResponse'
+          content: {}
                 
   /eventos/{id}:
     get:
@@ -79,10 +76,7 @@ paths:
                 $ref: '#/components/schemas/EventoRegistrado'
         404:
           description: Evento não encontrado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MensagensResponse'
+          content: {}
     put:
       tags:
       - eventos
@@ -108,16 +102,10 @@ paths:
                 $ref: '#/components/schemas/AtualizarEventoResponse'
         400:
           description: Requisição inválida
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MensagensResponse'
+          content: {}
         404:
           description: Evento não encontrado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MensagensResponse'
+          content: {}
     delete:
       tags:
       - eventos
@@ -134,10 +122,8 @@ paths:
           content: {}
         404:
           description: Evento não encontrado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MensagensResponse'
+          content: {}
+
   /eventos/{eventoId}/itens:
     get:
       tags:
@@ -159,16 +145,10 @@ paths:
                 $ref: '#/components/schemas/ListaItemEvento'
         400:
           description: Requisição inválida
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MensagensResponse'
+          content: {}
         404:
           description: Evento não encontrado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MensagensResponse'
+          content: {}
     post:
       tags:
       - eventos
@@ -195,16 +175,10 @@ paths:
                 $ref: '#/components/schemas/RegistrarItemEventoResponse'
         400:
           description: Requisição inválida
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MensagensResponse'
+          content: {}
         404:
           description: Evento não encontrado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MensagensResponse'
+          content: {}
                 
   /eventos/{eventoId}/itens/{itemId}:
     delete:
@@ -230,16 +204,10 @@ paths:
           content: {}
         400:
           description: Requisição inválida
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MensagensResponse'
+          content: {}
         404:
           description: Evento e/ou Item não encontrados
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MensagensResponse'
+          content: {}
   /itens:
     get:
       tags:
@@ -269,6 +237,9 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/NovoItemResponse'
+        400:
+          description: Requisição inválida
+          content: {}
                 
   /itens/{id}:
     get:
@@ -290,16 +261,10 @@ paths:
                 $ref: '#/components/schemas/ItemRegistrado'
         400:
           description: id do item está inválido
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MensagensResponse'
+          content: {}
         404:
           description: Item não encontrado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MensagensResponse'
+          content: {}
     put:
       tags:
       - itens
@@ -325,16 +290,10 @@ paths:
                 $ref: '#/components/schemas/AtualizarItemResponse'
         400:
           description: Parâmetros inválidos
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MensagensResponse'
+          content: {}
         404:
           description: Item não encontrado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MensagensResponse'
+          content: {}
                 
     delete:
       tags:
@@ -352,36 +311,13 @@ paths:
           content: {}
         400:
           description: id do item está inválido
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MensagensResponse'
+          content: {}
         404:
           description: Item não encontrado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/MensagensResponse'
+          content: {}
                
 components:
   schemas:
-    
-    MensagensResponse:
-      type: object
-      properties:
-        mensagensGlobais:
-          type: array
-          items:
-            type: string
-        mensagensPorCampo:
-          type: array
-          items:
-            type: object
-            properties:
-              campo:
-                type: string
-              erro:
-                type: string
     
     NovoEventoRequest:
       type: object
@@ -559,20 +495,11 @@ components:
   responses:
     400:
       description: Erros de validações
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/MensagensResponse'
+      content: {}
     404:
       description: Referencia não encontrada
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/MensagensResponse'
+      content: {}
     default:
       description: Erros internos do servidor
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/MensagensResponse'  
+      content: {}
     
