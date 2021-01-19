@@ -1,0 +1,333 @@
+swagger: "2.0"
+info:
+  description: "API backend para o Projeto Rueiros do Bem"
+  version: "1.0.0"
+  title: "Rueiros do Bem"
+  termsOfService: "http://TBD"
+  contact:
+    email: "TBD@tbd.com"
+  license:
+    name: "TBD Licence"
+    url: "http://TBD"
+# basePath: "/"
+tags:
+- name: "eventos"
+  description: "Tudo sobre os Eventos"
+  externalDocs:
+    description: "TBD - External docs"
+    url: "http://TBD"
+- name: "itens"
+  description: "Tudo sobre os Itens"
+
+consumes:
+- "application/json"
+produces:
+- "application/json"
+
+responses:
+  '400':
+    description: "Erros de validação"
+    schema:
+      $ref: "#/definitions/Erros"
+  '500':
+    description: "Erros internos do servidor"
+    schema:
+      $ref: "#/definitions/Erros"
+paths:
+  
+  '/eventos':
+    post:
+      description: 'Adiciona um novo evento'
+      tags:
+      - 'eventos'
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/NovoEvento"
+      responses:
+        '200':
+          description: "novo evento registrado"
+          schema:
+            $ref: "#/definitions/EventoRegistrado"
+            
+    get:
+      description: 'Lista todos os eventos registrados' 
+      tags:
+      - 'eventos'
+      responses:
+        '200':
+          description: 'Lista de todos os eventos registrados'
+          schema:
+            $ref: "#/definitions/ListaDeEventos"
+  
+  '/eventos/{id}':
+    get:
+      description: 'Retorna o evento para o id informado' 
+      tags:
+      - 'eventos'
+      parameters:
+      - in: 'path'
+        name: 'id'
+        type: 'number'
+        required: true
+      responses:
+        '200':
+          description: 'Retorna o evento registrados para o id informado'
+          schema:
+            $ref: "#/definitions/EventoRegistrado"
+    
+    put:
+      description: 'Atualiza um evento registrado' 
+      tags:
+      - 'eventos'
+      parameters:
+      - in: 'path'
+        name: 'id'
+        type: 'number'
+        required: true
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/EventoAtualizado"
+      responses:
+        '200':
+          description: 'Retorna o evento atualizado'
+          schema:
+            $ref: "#/definitions/EventoRegistrado"
+    
+    delete:
+      description: 'Remove um evento registrado' 
+      tags:
+      - 'eventos'
+      parameters:
+      - in: 'path'
+        name: 'id'
+        type: 'number'
+        required: true
+      responses:
+        '204':
+          description: 'Informa que removeu o eventos informado'
+          
+  '/eventos/{eventoId}/itens':
+    get:
+      description: 'Retorna os itens relacionados ao evento para o id informado' 
+      tags:
+      - 'eventos'
+      parameters:
+      - in: 'path'
+        name: 'eventoId'
+        description: 'Id do evento'
+        type: 'number'
+        required: true
+      responses:
+        '200':
+          description: 'Lista de todos os itens relacionados para o evento informado'
+          schema:
+            $ref: "#/definitions/ItemDoEventoRegistrado"
+    post:
+      description: 'Registrar um iten ao evento para o id informado' 
+      tags:
+      - 'eventos'
+      parameters:
+      - in: 'path'
+        name: 'eventoId'
+        description: 'Id do evento'
+        type: 'number'
+        required: true
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/ItemDoEvento"
+      responses:
+        '200':
+          description: 'Lista de todos os itens relacionados para o evento informado'
+          schema:
+            $ref: "#/definitions/ItemDoEventoRegistrado"
+            
+  '/eventos/{eventoId}/itens/{itemId}':  
+  
+    delete:
+      description: 'Remove um item do evento para o id informado' 
+      tags:
+      - 'eventos'
+      parameters:
+      - in: 'path'
+        name: 'eventoId'
+        description: 'Id do Evento'
+        type: 'number'
+        required: true
+      - in: 'path'
+        name: 'itemId'
+        description: 'Id do item do evento registrado'
+        type: 'number'
+        required: true
+      responses:
+        '204':
+          description: 'Informa que removeu o item do evendo informado'
+          
+  '/itens':
+    post:
+      description: 'Adiciona um novo item'
+      tags:
+      - 'itens'
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/NovoItem"
+      responses:
+        '200':
+          description: "novo item registrado"
+          schema:
+            $ref: "#/definitions/ItemRegistrado"
+            
+    get:
+      description: 'Lista todos os itens registrados' 
+      tags:
+      - 'itens'
+      responses:
+        '200':
+          description: 'Lista de todos os itens registrados'
+          schema:
+            $ref: "#/definitions/ListaDeItens"
+  
+  '/itens/{id}':
+    get:
+      description: 'Retorna o item para o id informado' 
+      tags:
+      - 'eventos'
+      parameters:
+      - in: 'path'
+        name: 'id'
+        type: 'number'
+        required: true
+      responses:
+        '200':
+          description: 'Retorna o iten registrado para o id informado'
+          schema:
+            $ref: "#/definitions/ItemRegistrado"
+    
+    put:
+      description: 'Atualiza item registrado' 
+      tags:
+      - 'itens'
+      parameters:
+      - in: 'path'
+        name: 'id'
+        type: 'number'
+        required: true
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/ItemAtualizado"
+      responses:
+        '200':
+          description: 'Retorna o item atualizado'
+          schema:
+            $ref: "#/definitions/ItemRegistrado"
+    
+    delete:
+      description: 'Remove um item registrado' 
+      tags:
+      - 'itens'
+      parameters:
+      - in: 'path'
+        name: 'id'
+        type: 'number'
+        required: true
+      responses:
+        '204':
+          description: 'Informa que removeu o item informado'
+    
+definitions:
+  
+  Erros:
+    type: "object"
+    properties:
+      globais: 
+        type: "array"
+        items:
+          type: "string"
+      campos:
+        type: "array"
+        items:
+          type: "object"
+          properties:
+            campo:
+              type: "string"
+            erro:
+              type: "string"
+              
+  NovoEvento:
+    type: "object"
+    properties:
+      descricao: 
+        type: "string"
+        
+  EventoRegistrado:
+    type: "object"
+    properties:
+      id:
+        type: "number"
+      descricao: 
+        type: "string"
+        
+  EventoAtualizado:
+    type: "object"
+    properties:
+      descricao: 
+        type: "string"
+  
+  ListaDeEventos:
+    type: "array"
+    items:
+      $ref: '#/definitions/EventoRegistrado'  
+      
+  ItemDoEventoRegistrado:
+    type: "object"
+    properties:
+      itemId: 
+        type: number
+      itemDescricao:
+        type: string
+  
+  ItemDoEvento:
+    type: "object"
+    properties:
+      itemId: 
+        type: number
+        
+  NovoItem:
+    type: "object"
+    properties:
+      descricao: 
+        type: "string"
+        
+  ItemRegistrado:
+    type: "object"
+    properties:
+      id:
+        type: "number"
+      descricao: 
+        type: "string"
+        
+  ItemAtualizado:
+    type: "object"
+    properties:
+      descricao: 
+        type: "string"
+  
+  ListaDeItens:
+    type: "array"
+    items:
+      $ref: '#/definitions/ItemRegistrado'  
+      
+externalDocs:
+  description: "Find out more about Swagger"
+  url: "http://swagger.io"
