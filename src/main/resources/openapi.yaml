@@ -409,10 +409,12 @@ components:
     ItemEventoRegistrado:
       type: object
       properties:
-        itemId:
+        id:
           type: number
-        itemDescricao:
+        descricao:
           type: string
+        valorReferencia:
+          type: number
           
     ListaItemEvento:
       type: array
@@ -430,10 +432,12 @@ components:
     RegistrarItemEventoResponse:
       type: object
       properties:
-        itemId:
+        id:
           type: number
-        itemDescricao:
+        descricao:
           type: string
+        valorReferencia:
+          type: number
           
     NovoItemRequest:
       type: object

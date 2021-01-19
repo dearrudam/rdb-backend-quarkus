@@ -56,10 +56,12 @@ components:
     ItemEventoRegistrado:
       type: object
       properties:
-        itemId:
+        id:
           type: number
-        itemDescricao:
+        descricao:
           type: string
+        valorReferencia:
+          type: number
           
     ListaItemEvento:
       type: array
