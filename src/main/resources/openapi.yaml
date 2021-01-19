@@ -1,0 +1,578 @@
+openapi: 3.0.1
+info:
+  title: API - Rueiros do Bem
+  description: API backend para o Projeto Rueiros do Bem
+  termsOfService: http://TBD
+  contact:
+    email: TBD@tbd.com
+  license:
+    name: Licença não definida
+    url: http://TBD
+  version: 1.0.0
+externalDocs:
+  description: 'Repositório do Projeto'
+  url: 'https://github.com/TemAula/rdb-backend-quarkus'
+servers:
+- url: /
+# Caso o modo dev do quarkus estiver executando e ouvindo na porta 8080
+- url: http://localhost:8080/
+tags:
+- name: eventos
+  description: 'Endpoints relacionados aos Eventos'
+  
+- name: itens
+  description: Endpoints relacionados aos Itens
+paths:
+  /eventos:
+    get:
+      tags:
+      - eventos
+      description: Lista todos os eventos registrados
+      responses:
+        200:
+          description: Lista de todos os eventos registrados
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListaDeEventos'
+    post:
+      tags:
+      - eventos
+      description: Adiciona um novo evento
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NovoEventoRequest'
+        required: true
+      responses:
+        200:
+          description: novo evento registrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NovoEventoResponse'
+        400:
+          description: Requisição inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MensagensResponse'
+                
+  /eventos/{id}:
+    get:
+      tags:
+      - eventos
+      description: Retorna o evento para o id informado
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: number
+      responses:
+        200:
+          description: Retorna o evento registrados para o id informado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventoRegistrado'
+        404:
+          description: Evento não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MensagensResponse'
+    put:
+      tags:
+      - eventos
+      description: Atualiza um evento registrado
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: number
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AtualizarEventoRequest'
+        required: true
+      responses:
+        200:
+          description: Retorna o evento atualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AtualizarEventoResponse'
+        400:
+          description: Requisição inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MensagensResponse'
+        404:
+          description: Evento não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MensagensResponse'
+    delete:
+      tags:
+      - eventos
+      description: Remove um evento registrado
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: number
+      responses:
+        204:
+          description: Informa que removeu o eventos informado
+          content: {}
+        404:
+          description: Evento não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MensagensResponse'
+  /eventos/{eventoId}/itens:
+    get:
+      tags:
+      - eventos
+      description: Retorna os itens relacionados ao evento para o id informado
+      parameters:
+      - name: eventoId
+        in: path
+        description: Id do evento
+        required: true
+        schema:
+          type: number
+      responses:
+        200:
+          description: Lista de todos os itens relacionados para o evento informado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListaItemEvento'
+        400:
+          description: Requisição inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MensagensResponse'
+        404:
+          description: Evento não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MensagensResponse'
+    post:
+      tags:
+      - eventos
+      description: Registrar um item ao evento para o id informado
+      parameters:
+      - name: eventoId
+        in: path
+        description: Id do evento
+        required: true
+        schema:
+          type: number
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegistrarItemEventoRequest'
+        required: true
+      responses:
+        200:
+          description: Lista de todos os itens relacionados para o evento informado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegistrarItemEventoResponse'
+        400:
+          description: Requisição inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MensagensResponse'
+        404:
+          description: Evento não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MensagensResponse'
+                
+  /eventos/{eventoId}/itens/{itemId}:
+    delete:
+      tags:
+      - eventos
+      description: Remove um item do evento para o id informado
+      parameters:
+      - name: eventoId
+        in: path
+        description: Id do Evento
+        required: true
+        schema:
+          type: number
+      - name: itemId
+        in: path
+        description: Id do item do evento registrado
+        required: true
+        schema:
+          type: number
+      responses:
+        204:
+          description: Informa que removeu o item do evendo informado
+          content: {}
+        400:
+          description: Requisição inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MensagensResponse'
+        404:
+          description: Evento e/ou Item não encontrados
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MensagensResponse'
+  /itens:
+    get:
+      tags:
+      - itens
+      description: Lista todos os itens registrados
+      responses:
+        200:
+          description: Lista de todos os itens registrados
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListaDeItens'
+    post:
+      tags:
+      - itens
+      description: Adiciona um novo item
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NovoItemRequest'
+        required: true
+      responses:
+        200:
+          description: novo item registrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NovoItemResponse'
+                
+  /itens/{id}:
+    get:
+      tags:
+      - eventos
+      description: Retorna o item para o id informado
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: number
+      responses:
+        200:
+          description: Retorna o iten registrado para o id informado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemRegistrado'
+        400:
+          description: id do item está inválido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MensagensResponse'
+        404:
+          description: Item não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MensagensResponse'
+    put:
+      tags:
+      - itens
+      description: Atualiza item registrado
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: number
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AtualizarItemRequest'
+        required: true
+      responses:
+        200:
+          description: Retorna o item atualizado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AtualizarItemResponse'
+        400:
+          description: Parâmetros inválidos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MensagensResponse'
+        404:
+          description: Item não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MensagensResponse'
+                
+    delete:
+      tags:
+      - itens
+      description: Remove um item registrado
+      parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: number
+      responses:
+        204:
+          description: Informa que removeu o item informado
+          content: {}
+        400:
+          description: id do item está inválido
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MensagensResponse'
+        404:
+          description: Item não encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MensagensResponse'
+               
+components:
+  schemas:
+    
+    MensagensResponse:
+      type: object
+      properties:
+        mensagensGlobais:
+          type: array
+          items:
+            type: string
+        mensagensPorCampo:
+          type: array
+          items:
+            type: object
+            properties:
+              campo:
+                type: string
+              erro:
+                type: string
+    
+    NovoEventoRequest:
+      type: object
+      properties:
+        nome:
+          type: string
+        descricao:
+          type: string
+        dataInicio:
+          type: string
+          format: date
+        dataFim:
+          type: string
+          format: date
+      required:
+      - nome
+      - dataInicio
+  
+    NovoEventoResponse:
+      type: object
+      properties:
+        id:
+          type: number
+        nome:
+          type: string
+        descricao:
+          type: string
+        dataInicio:
+          type: string
+          format: date
+        dataFim:
+          type: string
+          format: date
+          
+    EventoRegistrado:
+      type: object
+      properties:
+        id:
+          type: number
+        nome:
+          type: string
+        descricao:
+          type: string
+        dataInicio:
+          type: string
+          format: date
+        dataFim:
+          type: string
+          format: date
+    
+    AtualizarEventoRequest:
+      type: object
+      properties:
+        nome:
+          type: string
+        descricao:
+          type: string
+        dataInicio:
+          type: string
+          format: date
+        dataFim:
+          type: string
+          format: date
+      required:
+      - nome
+      - dataInicio
+      
+    AtualizarEventoResponse:
+      type: object
+      properties:
+        id:
+          type: number
+        nome:
+          type: string
+        descricao:
+          type: string
+        dataInicio:
+          type: string
+          format: date
+        dataFim:
+          type: string
+          format: date
+          
+    ListaDeEventos:
+      type: array
+      items:
+        $ref: '#/components/schemas/EventoRegistrado'
+        
+    ItemEventoRegistrado:
+      type: object
+      properties:
+        itemId:
+          type: number
+        itemDescricao:
+          type: string
+          
+    ListaItemEvento:
+      type: array
+      items:
+        $ref: '#/components/schemas/ItemEventoRegistrado'
+        
+    RegistrarItemEventoRequest:
+      type: object
+      properties:
+        itemId:
+          type: number
+      required:
+      - itemId
+      
+    RegistrarItemEventoResponse:
+      type: object
+      properties:
+        itemId:
+          type: number
+        itemDescricao:
+          type: string
+          
+    NovoItemRequest:
+      type: object
+      properties:
+        descricao:
+          type: string
+        valorReferencia:
+          type: number
+      required:
+      - descricao
+      - valorReferencia
+      
+    NovoItemResponse:
+      type: object
+      properties:
+        id:
+          type: number
+        descricao:
+          type: string
+        valorReferencia:
+          type: number
+          
+    ItemRegistrado:
+      type: object
+      properties:
+        id:
+          type: number
+        descricao:
+          type: string
+        valorReferencia:
+          type: number
+          
+    AtualizarItemRequest:
+      type: object
+      properties:
+        descricao:
+          type: string
+        valorReferencia:
+          type: number
+      required:
+      - descricao
+      - valorReferencia
+      
+    AtualizarItemResponse:
+      type: object
+      properties:
+        id:
+          type: number
+        descricao:
+          type: string
+        valorReferencia:
+          type: number
+          
+    ListaDeItens:
+      type: array
+      items:
+        $ref: '#/components/schemas/ItemRegistrado'
+        
+  responses:
+    400:
+      description: Erros de validações
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MensagensResponse'
+    404:
+      description: Referencia não encontrada
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MensagensResponse'
+    default:
+      description: Erros internos do servidor
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MensagensResponse'  
+    

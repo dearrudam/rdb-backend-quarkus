@@ -1,0 +1,70 @@
+openapi: 3.0.1
+info:
+  title: API - Rueiros do Bem
+  description: API backend para o Projeto Rueiros do Bem
+  termsOfService: http://TBD
+  contact:
+    email: TBD@tbd.com
+  license:
+    name: Licença não definida
+    url: http://TBD
+  version: 1.0.0
+externalDocs:
+  description: 'Repositório do Projeto'
+  url: 'https://github.com/TemAula/rdb-backend-quarkus'
+servers:
+- url: /
+# Caso o modo dev do quarkus estiver executando e ouvindo na porta 8080
+- url: http://localhost:8080/
+tags:
+- name: eventos
+  description: 'Endpoints relacionados aos Eventos'
+  
+- name: itens
+  description: Endpoints relacionados aos Itens
+paths:
+  /itens:
+    post:
+      tags:
+      - itens
+      description: Adiciona um novo item
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NovoItemRequest'
+        required: true
+      responses:
+        200:
+          description: novo item registrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/NovoItemResponse'
+        400:
+          description: Requisição inválida
+          content: {}
+               
+components:
+  schemas:
+    NovoItemRequest:
+      type: object
+      properties:
+        descricao:
+          type: string
+        valorReferencia:
+          type: number
+      required:
+      - descricao
+      - valorReferencia
+      
+    NovoItemResponse:
+      type: object
+      properties:
+        id:
+          type: number
+        descricao:
+          type: string
+        valorReferencia:
+          type: number
+          

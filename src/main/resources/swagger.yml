@@ -2,7 +2,7 @@ swagger: "2.0"
 info:
   description: "API backend para o Projeto Rueiros do Bem"
   version: "1.0.0"
-  title: "Rueiros do Bem"
+  title: "API - Rueiros do Bem"
   termsOfService: "http://TBD"
   contact:
     email: "TBD@tbd.com"
@@ -12,12 +12,12 @@ info:
 # basePath: "/"
 tags:
 - name: "eventos"
-  description: "Tudo sobre os Eventos"
+  description: "Endpoints relacionados aos Eventos"
   externalDocs:
     description: "TBD - External docs"
     url: "http://TBD"
 - name: "itens"
-  description: "Tudo sobre os Itens"
+  description: "Endpoints relacionados aos Itens"
 
 consumes:
 - "application/json"
@@ -28,30 +28,14 @@ responses:
   '400':
     description: "Erros de validação"
     schema:
-      $ref: "#/definitions/Erros"
+      $ref: "#/definitions/MensagensResponse"
   '500':
     description: "Erros internos do servidor"
     schema:
-      $ref: "#/definitions/Erros"
+      $ref: "#/definitions/MensagensResponse"
 paths:
   
   '/eventos':
-    post:
-      description: 'Adiciona um novo evento'
-      tags:
-      - 'eventos'
-      parameters:
-      - in: "body"
-        name: "body"
-        required: true
-        schema:
-          $ref: "#/definitions/NovoEvento"
-      responses:
-        '200':
-          description: "novo evento registrado"
-          schema:
-            $ref: "#/definitions/EventoRegistrado"
-            
     get:
       description: 'Lista todos os eventos registrados' 
       tags:
@@ -61,7 +45,22 @@ paths:
           description: 'Lista de todos os eventos registrados'
           schema:
             $ref: "#/definitions/ListaDeEventos"
-  
+    post:
+      description: 'Adiciona um novo evento'
+      tags:
+      - 'eventos'
+      parameters:
+      - in: "body"
+        name: "body"
+        required: true
+        schema:
+          $ref: "#/definitions/NovoEventoRequest"
+      responses:
+        '200':
+          description: "novo evento registrado"
+          schema:
+            $ref: "#/definitions/NovoEventoResponse"
+   
   '/eventos/{id}':
     get:
       description: 'Retorna o evento para o id informado' 
@@ -91,12 +90,12 @@ paths:
         name: "body"
         required: true
         schema:
-          $ref: "#/definitions/EventoAtualizado"
+          $ref: "#/definitions/AtualizarEventoRequest"
       responses:
         '200':
           description: 'Retorna o evento atualizado'
           schema:
-            $ref: "#/definitions/EventoRegistrado"
+            $ref: "#/definitions/AtualizarEventoResponse"
     
     delete:
       description: 'Remove um evento registrado' 
@@ -126,9 +125,9 @@ paths:
         '200':
           description: 'Lista de todos os itens relacionados para o evento informado'
           schema:
-            $ref: "#/definitions/ItemDoEventoRegistrado"
+            $ref: "#/definitions/ListaItemEvento"
     post:
-      description: 'Registrar um iten ao evento para o id informado' 
+      description: 'Registrar um item ao evento para o id informado' 
       tags:
       - 'eventos'
       parameters:
@@ -141,12 +140,12 @@ paths:
         name: "body"
         required: true
         schema:
-          $ref: "#/definitions/ItemDoEvento"
+          $ref: "#/definitions/RegistrarItemEventoRequest"
       responses:
         '200':
           description: 'Lista de todos os itens relacionados para o evento informado'
           schema:
-            $ref: "#/definitions/ItemDoEventoRegistrado"
+            $ref: "#/definitions/RegistrarItemEventoResponse"
             
   '/eventos/{eventoId}/itens/{itemId}':  
   
@@ -179,12 +178,12 @@ paths:
         name: "body"
         required: true
         schema:
-          $ref: "#/definitions/NovoItem"
+          $ref: "#/definitions/NovoItemRequest"
       responses:
         '200':
           description: "novo item registrado"
           schema:
-            $ref: "#/definitions/ItemRegistrado"
+            $ref: "#/definitions/NovoItemResponse"
             
     get:
       description: 'Lista todos os itens registrados' 
@@ -225,12 +224,12 @@ paths:
         name: "body"
         required: true
         schema:
-          $ref: "#/definitions/ItemAtualizado"
+          $ref: "#/definitions/AtualizarItemRequest"
       responses:
         '200':
           description: 'Retorna o item atualizado'
           schema:
-            $ref: "#/definitions/ItemRegistrado"
+            $ref: "#/definitions/AtualizarItemResponse"
     
     delete:
       description: 'Remove um item registrado' 
@@ -247,14 +246,14 @@ paths:
     
 definitions:
   
-  Erros:
+  MensagensResponse:
     type: "object"
     properties:
-      globais: 
+      mensagensGlobais: 
         type: "array"
         items:
           type: "string"
-      campos:
+      mensagensPorCampo:
         type: "array"
         items:
           type: "object"
@@ -264,32 +263,96 @@ definitions:
             erro:
               type: "string"
               
-  NovoEvento:
+  NovoEventoRequest:
     type: "object"
     properties:
+      nome: 
+        type: "string"
       descricao: 
         type: "string"
+        maximum: 400
+      dataInicio:
+        type: "string"
+        format: "date"
+      dataFim:
+        type: "string"
+        format: "date"
+    required:
+    - nome
+    - dataInicio
+        
+  NovoEventoResponse:
+    type: "object"
+    properties:
+      id:
+        type: "number"
+      nome: 
+        type: "string"
+      descricao: 
+        type: "string"
+      dataInicio:
+        type: "string"
+        format: "date"
+      dataFim:
+        type: "string"
+        format: "date"
         
   EventoRegistrado:
     type: "object"
     properties:
       id:
         type: "number"
+      nome: 
+        type: "string"
       descricao: 
         type: "string"
+      dataInicio:
+        type: "string"
+        format: "date"
+      dataFim:
+        type: "string"
+        format: "date"
+      
         
-  EventoAtualizado:
+  AtualizarEventoRequest:
     type: "object"
     properties:
+      nome: 
+        type: "string"
       descricao: 
         type: "string"
+      dataInicio:
+        type: "string"
+        format: "date"
+      dataFim:
+        type: "string"
+        format: "date"
+    required:
+    - nome
+    - dataInicio
+    
+  AtualizarEventoResponse:
+    type: "object"
+    properties:
+      id:
+        type: "number"
+      nome: 
+        type: "string"
+      descricao: 
+        type: "string"
+      dataInicio:
+        type: "string"
+        format: "date"
+      dataFim:
+        type: "string"
+        format: "date"
   
   ListaDeEventos:
     type: "array"
     items:
       $ref: '#/definitions/EventoRegistrado'  
       
-  ItemDoEventoRegistrado:
+  ItemEventoRegistrado:
     type: "object"
     properties:
       itemId: 
@@ -297,18 +360,49 @@ definitions:
       itemDescricao:
         type: string
   
-  ItemDoEvento:
+  ListaItemEvento:
+    type: "array"
+    items:
+      $ref: '#/definitions/ItemEventoRegistrado'
+  
+  RegistrarItemEventoRequest:
     type: "object"
     properties:
       itemId: 
         type: number
+    required:
+    - itemId
+    
+  RegistrarItemEventoResponse:
+    type: "object"
+    properties:
+      itemId: 
+        type: number
+      itemDescricao:
+        type: string
         
-  NovoItem:
+  NovoItemRequest:
     type: "object"
     properties:
       descricao: 
         type: "string"
+      valorReferencia:
+        type: number
+        default: 0.00
+    required:
+    - descricao
+    - valorReferencia
         
+  NovoItemResponse:
+    type: "object"
+    properties:
+      id:
+        type: "number"
+      descricao: 
+        type: "string"
+      valorReferencia:
+        type: number
+  
   ItemRegistrado:
     type: "object"
     properties:
@@ -316,12 +410,29 @@ definitions:
         type: "number"
       descricao: 
         type: "string"
+      valorReferencia:
+        type: number
         
-  ItemAtualizado:
+  AtualizarItemRequest:
     type: "object"
     properties:
       descricao: 
         type: "string"
+      valorReferencia:
+        type: number
+    required:
+    - descricao
+    - valorReferencia
+    
+  AtualizarItemResponse:
+    type: "object"
+    properties:
+      id:
+        type: "number"
+      descricao: 
+        type: "string"
+      valorReferencia:
+        type: number
   
   ListaDeItens:
     type: "array"
