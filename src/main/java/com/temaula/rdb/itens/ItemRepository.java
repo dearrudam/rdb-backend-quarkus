@@ -1,4 +1,4 @@
-package com.temaula.rdb.items;
+package com.temaula.rdb.itens;
 
 import io.quarkus.hibernate.orm.panache.PanacheRepositoryBase;
 

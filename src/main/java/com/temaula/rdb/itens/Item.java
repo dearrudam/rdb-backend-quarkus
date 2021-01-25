@@ -1,4 +1,4 @@
-package com.temaula.rdb.items;
+package com.temaula.rdb.itens;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

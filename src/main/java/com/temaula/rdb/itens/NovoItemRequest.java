@@ -1,4 +1,4 @@
-package com.temaula.rdb.items;
+package com.temaula.rdb.itens;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
