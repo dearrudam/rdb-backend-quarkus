@@ -5,7 +5,15 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
+import java.util.Optional;
 
+@IsValid(
+        by = Evento.PeriodoValidador.class,
+        attributes = {
+                NovoEventoRequest.GetDataInicio.class,
+                NovoEventoRequest.GetDataFim.class
+        },
+        message = "data inicial deve ser menor ou igual a data final")
 public class NovoEventoRequest {
 
     @NotEmpty
@@ -46,5 +54,19 @@ public class NovoEventoRequest {
 
     public void setDataFim(LocalDate dataFim) {
         this.dataFim = dataFim;
+    }
+
+    public static class GetDataInicio implements Evento.DataInicio {
+        @Override
+        public Optional<LocalDate> getDataInicio(Object source) {
+            return Optional.ofNullable(Optional.of(source).map(NovoEventoRequest.class::cast).get().getDataInicio());
+        }
+    }
+
+    public static class GetDataFim implements Evento.DataFim {
+        @Override
+        public Optional<LocalDate> getDataFim(Object source) {
+            return Optional.ofNullable(Optional.of(source).map(NovoEventoRequest.class::cast).get().getDataFim());
+        }
     }
 }
