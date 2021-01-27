@@ -1,5 +1,7 @@
 package com.github.temaula.rdb.eventos;
 
+import org.checkerframework.checker.nullness.Opt;
+
 import javax.ejb.Local;
 import javax.management.Attribute;
 import javax.persistence.Entity;
@@ -65,21 +67,31 @@ public class Evento implements Serializable {
         return dataFim;
     }
 
-    public static interface DataInicio extends IsValid.Attribute {
+    public static class GetDataInicio implements IsValid.Attribute {
         @Override
-        default Optional<?> getValue(Object source) {
+        public Optional<?> getValue(Object source) {
             return getDataInicio(source);
         }
 
-        Optional<LocalDate> getDataInicio(Object source);
+        public Optional<LocalDate> getDataInicio(Object source){
+            if ( source instanceof Evento){
+                return Optional.ofNullable(((Evento)source).getDataInicio());
+            }
+            return Optional.empty();
+        }
     }
 
-    public static interface DataFim extends IsValid.Attribute {
+    public static class GetDataFim implements IsValid.Attribute {
         @Override
-        default Optional<?> getValue(Object source) {
+        public Optional<?> getValue(Object source) {
             return getDataFim(source);
         }
-        Optional<LocalDate> getDataFim(Object source);
+        public Optional<LocalDate> getDataFim(Object source){
+            if ( source instanceof Evento){
+                return Optional.ofNullable(((Evento)source).getDataFim());
+            }
+            return Optional.empty();
+        }
     }
 
     public static class PeriodoValidador implements IsValid.CustomValidator {
@@ -95,29 +107,29 @@ public class Evento implements Serializable {
             Arrays.stream(attributes)
                     .filter(Objects::nonNull)
                     .forEach(a -> {
-                        if (DataInicio.class.isAssignableFrom(a.getClass())) {
-                            supportedAttributes.put(DataInicio.class, Optional.of(a));
-                        } else if (DataFim.class.isAssignableFrom(a.getClass())) {
-                            supportedAttributes.put(DataFim.class, Optional.of(a));
+                        if (GetDataInicio.class.isAssignableFrom(a.getClass())) {
+                            supportedAttributes.put(GetDataInicio.class, Optional.of(a));
+                        } else if (GetDataFim.class.isAssignableFrom(a.getClass())) {
+                            supportedAttributes.put(GetDataFim.class, Optional.of(a));
                         }
                     });
 
-            if (!supportedAttributes.containsKey(DataInicio.class))
+            if (!supportedAttributes.containsKey(GetDataInicio.class))
                 return false;
 
             final var dataInicio = supportedAttributes
-                    .get(DataInicio.class)
-                    .map(DataInicio.class::cast).get().getDataInicio(source);
+                    .get(GetDataInicio.class)
+                    .map(GetDataInicio.class::cast).get().getDataInicio(source);
 
             if (dataInicio.isEmpty())
                 return false;
 
-            if (!supportedAttributes.containsKey(DataFim.class))
+            if (!supportedAttributes.containsKey(GetDataFim.class))
                 return true;
 
             final var dataFim = supportedAttributes
-                    .get(DataFim.class)
-                    .map(DataFim.class::cast).get().getDataFim(source);
+                    .get(GetDataFim.class)
+                    .map(GetDataFim.class::cast).get().getDataFim(source);
 
             if (dataFim.isEmpty())
                 return true;

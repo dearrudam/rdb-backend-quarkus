@@ -56,14 +56,14 @@ public class NovoEventoRequest {
         this.dataFim = dataFim;
     }
 
-    public static class GetDataInicio implements Evento.DataInicio {
+    public static class GetDataInicio extends Evento.GetDataInicio {
         @Override
         public Optional<LocalDate> getDataInicio(Object source) {
             return Optional.ofNullable(Optional.of(source).map(NovoEventoRequest.class::cast).get().getDataInicio());
         }
     }
 
-    public static class GetDataFim implements Evento.DataFim {
+    public static class GetDataFim extends Evento.GetDataFim {
         @Override
         public Optional<LocalDate> getDataFim(Object source) {
             return Optional.ofNullable(Optional.of(source).map(NovoEventoRequest.class::cast).get().getDataFim());
