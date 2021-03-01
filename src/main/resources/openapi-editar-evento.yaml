@@ -13,27 +13,27 @@ externalDocs:
   description: 'Repositório do Projeto'
   url: 'https://github.com/TemAula/rdb-backend-quarkus'
 servers:
-- url: /
-# Caso o modo dev do quarkus estiver executando e ouvindo na porta 8080
-- url: http://localhost:8080/
+  - url: /
+  # Caso o modo dev do quarkus estiver executando e ouvindo na porta 8080
+  - url: http://localhost:8080/
 tags:
-- name: eventos
-  description: 'Endpoints relacionados aos Eventos'
-  
-- name: itens
-  description: Endpoints relacionados aos Itens
+  - name: eventos
+    description: 'Endpoints relacionados aos Eventos'
+
+  - name: itens
+    description: Endpoints relacionados aos Itens
 paths:
   /eventos/{id}:
     put:
       tags:
-      - eventos
+        - eventos
       description: Atualiza um evento registrado
       parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: number
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number
       requestBody:
         content:
           application/json:
@@ -53,18 +53,14 @@ paths:
         404:
           description: Evento não encontrado
           content: {}
-   
-               
+
+
 components:
   schemas:
-    
-    AtualizarEventoRequest:
+
+    Periodo:
       type: object
       properties:
-        nome:
-          type: string
-        descricao:
-          type: string
         dataInicio:
           type: string
           format: date
@@ -72,9 +68,22 @@ components:
           type: string
           format: date
       required:
-      - nome
-      - dataInicio
-      
+        - dataInicio
+        - dataFim
+
+    AtualizarEventoRequest:
+      type: object
+      properties:
+        nome:
+          type: string
+        descricao:
+          type: string
+        periodoVigencia:
+          $ref: '#/components/schemas/Periodo'
+      required:
+        - nome
+        - periodoVigencia
+
     AtualizarEventoResponse:
       type: object
       properties:
@@ -84,11 +93,6 @@ components:
           type: string
         descricao:
           type: string
-        dataInicio:
-          type: string
-          format: date
-        dataFim:
-          type: string
-          format: date
-          
+        periodoVigencia:
+          $ref: '#/components/schemas/Periodo'
   

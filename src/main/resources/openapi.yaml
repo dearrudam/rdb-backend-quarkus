@@ -13,20 +13,20 @@ externalDocs:
   description: 'Repositório do Projeto'
   url: 'https://github.com/TemAula/rdb-backend-quarkus'
 servers:
-- url: /
-# Caso o modo dev do quarkus estiver executando e ouvindo na porta 8080
-- url: http://localhost:8080/
+  - url: /
+  # Caso o modo dev do quarkus estiver executando e ouvindo na porta 8080
+  - url: http://localhost:8080/
 tags:
-- name: eventos
-  description: 'Endpoints relacionados aos Eventos'
-  
-- name: itens
-  description: Endpoints relacionados aos Itens
+  - name: eventos
+    description: 'Endpoints relacionados aos Eventos'
+
+  - name: itens
+    description: Endpoints relacionados aos Itens
 paths:
   /eventos:
     get:
       tags:
-      - eventos
+        - eventos
       description: Lista todos os eventos registrados
       responses:
         200:
@@ -37,7 +37,7 @@ paths:
                 $ref: '#/components/schemas/ListaDeEventos'
     post:
       tags:
-      - eventos
+        - eventos
       description: Adiciona um novo evento
       requestBody:
         content:
@@ -48,25 +48,25 @@ paths:
       responses:
         200:
           description: novo evento registrado
-          content: 
+          content:
             application/json:
               schema:
                 $ref: '#/components/schemas/NovoEventoResponse'
         400:
           description: Requisição inválida
           content: {}
-                
+
   /eventos/{id}:
     get:
       tags:
-      - eventos
+        - eventos
       description: Retorna o evento para o id informado
       parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: number
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number
       responses:
         200:
           description: Retorna o evento registrados para o id informado
@@ -79,14 +79,14 @@ paths:
           content: {}
     put:
       tags:
-      - eventos
+        - eventos
       description: Atualiza um evento registrado
       parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: number
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number
       requestBody:
         content:
           application/json:
@@ -108,14 +108,14 @@ paths:
           content: {}
     delete:
       tags:
-      - eventos
+        - eventos
       description: Remove um evento registrado
       parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: number
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number
       responses:
         204:
           description: Informa que removeu o eventos informado
@@ -127,15 +127,15 @@ paths:
   /eventos/{eventoId}/itens:
     get:
       tags:
-      - eventos
+        - eventos
       description: Retorna os itens relacionados ao evento para o id informado
       parameters:
-      - name: eventoId
-        in: path
-        description: Id do evento
-        required: true
-        schema:
-          type: number
+        - name: eventoId
+          in: path
+          description: Id do evento
+          required: true
+          schema:
+            type: number
       responses:
         200:
           description: Lista de todos os itens relacionados para o evento informado
@@ -151,15 +151,15 @@ paths:
           content: {}
     post:
       tags:
-      - eventos
+        - eventos
       description: Registrar um item ao evento para o id informado
       parameters:
-      - name: eventoId
-        in: path
-        description: Id do evento
-        required: true
-        schema:
-          type: number
+        - name: eventoId
+          in: path
+          description: Id do evento
+          required: true
+          schema:
+            type: number
       requestBody:
         content:
           application/json:
@@ -179,25 +179,25 @@ paths:
         404:
           description: Evento não encontrado
           content: {}
-                
+
   /eventos/{eventoId}/itens/{itemId}:
     delete:
       tags:
-      - eventos
+        - eventos
       description: Remove um item do evento para o id informado
       parameters:
-      - name: eventoId
-        in: path
-        description: Id do Evento
-        required: true
-        schema:
-          type: number
-      - name: itemId
-        in: path
-        description: Id do item do evento registrado
-        required: true
-        schema:
-          type: number
+        - name: eventoId
+          in: path
+          description: Id do Evento
+          required: true
+          schema:
+            type: number
+        - name: itemId
+          in: path
+          description: Id do item do evento registrado
+          required: true
+          schema:
+            type: number
       responses:
         204:
           description: Informa que removeu o item do evendo informado
@@ -211,7 +211,7 @@ paths:
   /itens:
     get:
       tags:
-      - itens
+        - itens
       description: Lista todos os itens registrados
       responses:
         200:
@@ -222,7 +222,7 @@ paths:
                 $ref: '#/components/schemas/ListaDeItens'
     post:
       tags:
-      - itens
+        - itens
       description: Adiciona um novo item
       requestBody:
         content:
@@ -240,18 +240,18 @@ paths:
         400:
           description: Requisição inválida
           content: {}
-                
+
   /itens/{id}:
     get:
       tags:
-      - eventos
+        - eventos
       description: Retorna o item para o id informado
       parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: number
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number
       responses:
         200:
           description: Retorna o iten registrado para o id informado
@@ -267,14 +267,14 @@ paths:
           content: {}
     put:
       tags:
-      - itens
+        - itens
       description: Atualiza item registrado
       parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: number
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number
       requestBody:
         content:
           application/json:
@@ -294,17 +294,17 @@ paths:
         404:
           description: Item não encontrado
           content: {}
-                
+
     delete:
       tags:
-      - itens
+        - itens
       description: Remove um item registrado
       parameters:
-      - name: id
-        in: path
-        required: true
-        schema:
-          type: number
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: number
       responses:
         204:
           description: Informa que removeu o item informado
@@ -315,17 +315,13 @@ paths:
         404:
           description: Item não encontrado
           content: {}
-               
+
 components:
   schemas:
-    
-    NovoEventoRequest:
+
+    Periodo:
       type: object
       properties:
-        nome:
-          type: string
-        descricao:
-          type: string
         dataInicio:
           type: string
           format: date
@@ -333,9 +329,22 @@ components:
           type: string
           format: date
       required:
-      - nome
-      - dataInicio
-  
+        - dataInicio
+        - dataFim
+
+    NovoEventoRequest:
+      type: object
+      properties:
+        nome:
+          type: string
+        descricao:
+          type: string
+        periodoVigencia:
+          $ref: '#/components/schemas/Periodo'
+      required:
+        - nome
+        - periodoVigencia
+
     NovoEventoResponse:
       type: object
       properties:
@@ -345,13 +354,9 @@ components:
           type: string
         descricao:
           type: string
-        dataInicio:
-          type: string
-          format: date
-        dataFim:
-          type: string
-          format: date
-          
+        periodoVigencia:
+          $ref: '#/components/schemas/Periodo'
+
     EventoRegistrado:
       type: object
       properties:
@@ -361,13 +366,9 @@ components:
           type: string
         descricao:
           type: string
-        dataInicio:
-          type: string
-          format: date
-        dataFim:
-          type: string
-          format: date
-    
+        periodoVigencia:
+          $ref: '#/components/schemas/Periodo'
+
     AtualizarEventoRequest:
       type: object
       properties:
@@ -375,16 +376,12 @@ components:
           type: string
         descricao:
           type: string
-        dataInicio:
-          type: string
-          format: date
-        dataFim:
-          type: string
-          format: date
+        periodoVigencia:
+          $ref: '#/components/schemas/Periodo'
       required:
-      - nome
-      - dataInicio
-      
+        - nome
+        - periodoVigencia
+
     AtualizarEventoResponse:
       type: object
       properties:
@@ -394,18 +391,14 @@ components:
           type: string
         descricao:
           type: string
-        dataInicio:
-          type: string
-          format: date
-        dataFim:
-          type: string
-          format: date
-          
+        periodoVigencia:
+          $ref: '#/components/schemas/Periodo'
+
     ListaDeEventos:
       type: array
       items:
         $ref: '#/components/schemas/EventoRegistrado'
-        
+
     ItemEventoRegistrado:
       type: object
       properties:
@@ -415,20 +408,20 @@ components:
           type: string
         valorReferencia:
           type: number
-          
+
     ListaItemEvento:
       type: array
       items:
         $ref: '#/components/schemas/ItemEventoRegistrado'
-        
+
     RegistrarItemEventoRequest:
       type: object
       properties:
         itemId:
           type: number
       required:
-      - itemId
-      
+        - itemId
+
     RegistrarItemEventoResponse:
       type: object
       properties:
@@ -438,7 +431,7 @@ components:
           type: string
         valorReferencia:
           type: number
-          
+
     NovoItemRequest:
       type: object
       properties:
@@ -447,9 +440,9 @@ components:
         valorReferencia:
           type: number
       required:
-      - descricao
-      - valorReferencia
-      
+        - descricao
+        - valorReferencia
+
     NovoItemResponse:
       type: object
       properties:
@@ -459,7 +452,7 @@ components:
           type: string
         valorReferencia:
           type: number
-          
+
     ItemRegistrado:
       type: object
       properties:
@@ -469,7 +462,7 @@ components:
           type: string
         valorReferencia:
           type: number
-          
+
     AtualizarItemRequest:
       type: object
       properties:
@@ -478,9 +471,9 @@ components:
         valorReferencia:
           type: number
       required:
-      - descricao
-      - valorReferencia
-      
+        - descricao
+        - valorReferencia
+
     AtualizarItemResponse:
       type: object
       properties:
@@ -490,12 +483,12 @@ components:
           type: string
         valorReferencia:
           type: number
-          
+
     ListaDeItens:
       type: array
       items:
         $ref: '#/components/schemas/ItemRegistrado'
-        
+
   responses:
     400:
       description: Erros de validações
@@ -506,4 +499,3 @@ components:
     default:
       description: Erros internos do servidor
       content: {}
-    

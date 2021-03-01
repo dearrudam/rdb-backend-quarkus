@@ -13,20 +13,20 @@ externalDocs:
   description: 'Repositório do Projeto'
   url: 'https://github.com/TemAula/rdb-backend-quarkus'
 servers:
-- url: /
-# Caso o modo dev do quarkus estiver executando e ouvindo na porta 8080
-- url: http://localhost:8080/
+  - url: /
+  # Caso o modo dev do quarkus estiver executando e ouvindo na porta 8080
+  - url: http://localhost:8080/
 tags:
-- name: eventos
-  description: 'Endpoints relacionados aos Eventos'
-  
-- name: itens
-  description: Endpoints relacionados aos Itens
+  - name: eventos
+    description: 'Endpoints relacionados aos Eventos'
+
+  - name: itens
+    description: Endpoints relacionados aos Itens
 paths:
   /eventos:
     get:
       tags:
-      - eventos
+        - eventos
       description: Lista todos os eventos registrados
       responses:
         200:
@@ -36,10 +36,23 @@ paths:
               schema:
                 $ref: '#/components/schemas/ListaDeEventos'
 
-               
+
 components:
   schemas:
-    
+
+    Periodo:
+      type: object
+      properties:
+        dataInicio:
+          type: string
+          format: date
+        dataFim:
+          type: string
+          format: date
+      required:
+        - dataInicio
+        - dataFim
+
     EventoRegistrado:
       type: object
       properties:
@@ -49,16 +62,12 @@ components:
           type: string
         descricao:
           type: string
-        dataInicio:
-          type: string
-          format: date
-        dataFim:
-          type: string
-          format: date
-    
+        periodoVigencia:
+          $ref: '#/components/schemas/Periodo'
+
+
     ListaDeEventos:
       type: array
       items:
         $ref: '#/components/schemas/EventoRegistrado'
         
-    
