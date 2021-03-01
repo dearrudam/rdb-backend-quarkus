@@ -72,9 +72,3 @@ components:
           type: string
         periodoVigencia:
           $ref: '#/components/schemas/Periodo'
-
-
-    ListaDeEventos:
-      type: array
-      items:
-        $ref: '#/components/schemas/EventoRegistrado'
