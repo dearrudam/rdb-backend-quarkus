@@ -35,7 +35,7 @@ paths:
         schema:
           type: number
       responses:
-        204:
+        202:
           description: Informa que removeu o item informado
           content: {}
         400:
