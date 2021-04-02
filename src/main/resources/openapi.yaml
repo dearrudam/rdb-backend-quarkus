@@ -306,7 +306,7 @@ paths:
           schema:
             type: number
       responses:
-        202:
+        204:
           description: Informa que removeu o item informado
           content: {}
         404:
