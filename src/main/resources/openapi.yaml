@@ -309,9 +309,6 @@ paths:
         202:
           description: Informa que removeu o item informado
           content: {}
-        400:
-          description: id do item está inválido
-          content: {}
         404:
           description: Item não encontrado
           content: {}
