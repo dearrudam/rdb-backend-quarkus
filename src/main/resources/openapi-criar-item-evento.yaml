@@ -61,10 +61,10 @@ components:
     RegistrarItemEventoRequest:
       type: object
       properties:
-        itemId:
+        id:
           type: number
       required:
-      - itemId
+      - id
       
     RegistrarItemEventoResponse:
       type: object
